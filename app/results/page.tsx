@@ -55,7 +55,7 @@ export default async function ResultsPage({ searchParams }: ResultsPageProps) {
 
         <article className="module-card rounded-xl p-5">
           <h2 className="text-xl font-semibold tracking-tight">Route summary</h2>
-          <div className="mt-3 grid grid-cols-2 gap-2 text-xs font-mono">
+          <div className="mt-3 grid grid-cols-1 gap-2 text-xs font-mono sm:grid-cols-2">
             <span className="rounded-md border border-[var(--border)] bg-black/30 px-2 py-1">Route: {licenseType}</span>
             <span className="rounded-md border border-[var(--border)] bg-black/30 px-2 py-1">Scenarios: 3</span>
             <span className="rounded-md border border-[var(--border)] bg-black/30 px-2 py-1">Evaluation: Complete</span>
@@ -90,13 +90,13 @@ export default async function ResultsPage({ searchParams }: ResultsPageProps) {
       </section>
 
       <section className="flex flex-wrap gap-3">
-        <Link href="/test" className="primary-btn focus-ring px-4 py-2.5 text-sm">
+        <Link href="/test" className="primary-btn focus-ring w-full px-4 py-2.5 text-center text-sm sm:w-auto">
           Run Another Test
         </Link>
-        <button type="button" className="focus-ring rounded-lg border border-[var(--border)] bg-[var(--surface-soft)] px-4 py-2.5 text-sm font-medium transition hover:border-[var(--accent-yellow)]/45 hover:bg-black/25">
+        <button type="button" className="focus-ring w-full rounded-lg border border-[var(--border)] bg-[var(--surface-soft)] px-4 py-2.5 text-sm font-medium transition hover:border-[var(--accent-yellow)]/45 hover:bg-black/25 sm:w-auto">
           Download License
         </button>
-        <Link href="/licenses" className="focus-ring rounded-lg border border-[var(--border)] bg-[var(--surface-soft)] px-4 py-2.5 text-sm font-medium transition hover:border-[var(--accent)]/45 hover:bg-black/25">
+        <Link href="/licenses" className="focus-ring w-full rounded-lg border border-[var(--border)] bg-[var(--surface-soft)] px-4 py-2.5 text-center text-sm font-medium transition hover:border-[var(--accent)]/45 hover:bg-black/25 sm:w-auto">
           Open Registry
         </Link>
       </section>

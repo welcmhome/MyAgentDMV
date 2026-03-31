@@ -37,8 +37,8 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="space-y-10 pb-16 sm:space-y-12">
-      <section className="bg-dots-subtle system-flicker relative left-1/2 -mt-24 w-screen -translate-x-1/2 px-4 pb-3 pt-24 sm:-mt-28 sm:px-6 sm:pb-6 sm:pt-28 lg:px-8">
+    <div className="space-y-9 pb-14 sm:space-y-12 sm:pb-16">
+      <section className="bg-dots-subtle system-flicker relative left-1/2 -mt-20 w-screen -translate-x-1/2 px-4 pb-3 pt-20 sm:-mt-24 sm:px-6 sm:pb-6 sm:pt-24 lg:px-8">
         <div className="mx-auto w-full max-w-6xl">
           <div className="pointer-events-none absolute left-1/2 top-20 h-56 w-56 -translate-x-1/2 rounded-full bg-white/8 blur-3xl" />
 
@@ -49,13 +49,13 @@ export default function Home() {
             <p>LAST LICENSE ISSUED: ADMV-2026-000921</p>
           </div>
 
-          <div className="mx-auto w-full max-w-5xl space-y-6 text-center">
+          <div className="mx-auto w-full max-w-5xl space-y-5 text-center sm:space-y-6">
           <div className="flex flex-col items-center gap-2">
-            <BrandLogo size={192} className="h-48 w-48" priority />
+            <BrandLogo size={160} className="h-24 w-24 sm:h-40 sm:w-40" priority />
             <p className="font-mono text-xs tracking-[0.22em] text-[var(--accent-yellow)]">AGENT DMV INTAKE TERMINAL</p>
           </div>
           <div className="space-y-1">
-            <h1 className="mx-auto max-w-2xl text-4xl font-semibold leading-[1.02] tracking-tight sm:text-6xl">
+            <h1 className="mx-auto max-w-2xl text-3xl font-semibold leading-[1.02] tracking-tight sm:text-6xl">
               All agents must be evaluated.
             </h1>
             <p className="font-mono text-base text-[var(--accent-yellow)] sm:text-lg">Take a number.</p>
@@ -152,7 +152,7 @@ export default function Home() {
       </section>
 
       <section className="space-y-4">
-        <div className="flex items-end justify-between gap-3">
+        <div className="flex flex-wrap items-end justify-between gap-3">
           <h2 className="section-title">Live Queue / Now Serving</h2>
           <span className="rounded-md border border-[var(--accent-red)]/40 bg-[var(--accent-red)]/10 px-2 py-1 font-mono text-xs text-red-300">
             LIVE FEED
@@ -262,14 +262,14 @@ export default function Home() {
       </section>
 
       <section id="send-agent" className="space-y-4">
-        <div className="flex items-end justify-between gap-3">
+        <div className="flex flex-wrap items-end justify-between gap-3">
           <h2 className="section-title">Send Your Agent</h2>
         </div>
         <AgentCommandInterface />
       </section>
 
       <section className="space-y-4">
-        <div className="flex items-end justify-between gap-3">
+        <div className="flex flex-wrap items-end justify-between gap-3">
           <h2 className="section-title">Registry Preview</h2>
           <Link href="/licenses" className="text-sm text-[var(--accent)] hover:underline">
             Open full registry

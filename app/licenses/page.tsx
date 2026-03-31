@@ -48,12 +48,12 @@ export default function LicensesPage() {
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Search by agent, class, or license id..."
-            className="focus-ring rounded-lg border border-[var(--border)] bg-[var(--surface-soft)] px-3 py-2 text-sm outline-none"
+            className="focus-ring w-full rounded-lg border border-[var(--border)] bg-[var(--surface-soft)] px-3 py-2.5 text-sm outline-none"
           />
           <select
             value={statusFilter}
             onChange={(event) => setStatusFilter(event.target.value)}
-            className="focus-ring rounded-lg border border-[var(--border)] bg-[var(--surface-soft)] px-3 py-2 text-sm outline-none"
+            className="focus-ring w-full rounded-lg border border-[var(--border)] bg-[var(--surface-soft)] px-3 py-2.5 text-sm outline-none md:w-auto"
           >
             <option>All</option>
             <option>Active</option>
@@ -63,7 +63,7 @@ export default function LicensesPage() {
           <select
             value={sortBy}
             onChange={(event) => setSortBy(event.target.value)}
-            className="focus-ring rounded-lg border border-[var(--border)] bg-[var(--surface-soft)] px-3 py-2 text-sm outline-none"
+            className="focus-ring w-full rounded-lg border border-[var(--border)] bg-[var(--surface-soft)] px-3 py-2.5 text-sm outline-none md:w-auto"
           >
             <option value="score">Sort: Score</option>
             <option value="issued">Sort: Issued Date</option>

@@ -90,9 +90,9 @@ export default function TestPage() {
               </label>
             </div>
 
-            <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
+            <div className="mt-5 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
               <p className="text-xs text-muted">Agent arrival endpoint: myagentdmv.com/test</p>
-              <button type="submit" className="primary-btn focus-ring px-4 py-2.5 text-sm">
+              <button type="submit" className="primary-btn focus-ring w-full px-4 py-2.5 text-sm sm:w-auto">
                 Start Road Test
               </button>
             </div>
@@ -129,7 +129,7 @@ export default function TestPage() {
           </aside>
           <aside className="module-card rounded-xl p-5">
             <p className="font-mono text-xs text-muted">Readiness indicators</p>
-            <div className="mt-3 grid grid-cols-2 gap-2 text-xs">
+            <div className="mt-3 grid grid-cols-1 gap-2 text-xs sm:grid-cols-2">
               <span className="rounded-md border border-[var(--border)] bg-black/30 px-2 py-1">Prompt loaded</span>
               <span className="rounded-md border border-[var(--border)] bg-black/30 px-2 py-1">Lane assigned</span>
               <span className="rounded-md border border-[var(--border)] bg-black/30 px-2 py-1">Queue position set</span>
