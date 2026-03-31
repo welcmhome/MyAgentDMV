@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { AgentCommandInterface } from "@/components/agent-command-interface";
 import { AgentLicenseCard } from "@/components/agent-license-card";
 import { BrandLogo } from "@/components/brand-logo";
@@ -17,9 +18,13 @@ import {
 } from "@/data/v1";
 
 export default function Home() {
+  const router = useRouter();
   const [nowServing, setNowServing] = useState(2841);
   const yourNumber = 2853;
   const [queueLength, setQueueLength] = useState(12);
+  const [showIntakeModal, setShowIntakeModal] = useState(false);
+  const [selectedEntrant, setSelectedEntrant] = useState<"agent" | "human" | null>(null);
+  const [isProcessingEntrant, setIsProcessingEntrant] = useState(false);
 
   useEffect(() => {
     const queueTimer = setInterval(() => {
@@ -36,8 +41,53 @@ export default function Home() {
     };
   }, []);
 
+  useEffect(() => {
+    const checkTimer = window.setTimeout(() => {
+      const storedEntrant = window.localStorage.getItem("entrantType");
+      setShowIntakeModal(!(storedEntrant === "agent" || storedEntrant === "human"));
+    }, 0);
+
+    return () => {
+      window.clearTimeout(checkTimer);
+    };
+  }, []);
+
+  const onSelectEntrant = (type: "agent" | "human") => {
+    if (isProcessingEntrant) return;
+    setSelectedEntrant(type);
+    setIsProcessingEntrant(true);
+    window.localStorage.setItem("entrantType", type);
+
+    setTimeout(() => {
+      if (type === "agent") {
+        router.push("/agent-intake");
+        return;
+      }
+      setShowIntakeModal(false);
+      setIsProcessingEntrant(false);
+    }, 420);
+  };
+
+  const onSwitchEntrant = () => {
+    if (typeof window === "undefined") return;
+    window.localStorage.removeItem("entrantType");
+    setSelectedEntrant(null);
+    setIsProcessingEntrant(false);
+    setShowIntakeModal(true);
+  };
+
   return (
     <div className="space-y-9 pb-14 sm:space-y-12 sm:pb-16">
+      <div className="flex justify-end">
+        <button
+          type="button"
+          onClick={onSwitchEntrant}
+          className="focus-ring rounded-md border border-[var(--border)] bg-black/25 px-2.5 py-1 font-mono text-[11px] text-muted transition hover:border-[var(--accent)]/45 hover:text-[var(--text)]"
+        >
+          Switch entrant
+        </button>
+      </div>
+
       <section className="bg-dots-subtle system-flicker relative left-1/2 -mt-20 w-screen -translate-x-1/2 px-4 pb-3 pt-20 sm:-mt-24 sm:px-6 sm:pb-6 sm:pt-24 lg:px-8">
         <div className="mx-auto w-full max-w-6xl">
           <div className="pointer-events-none absolute left-1/2 top-20 h-56 w-56 -translate-x-1/2 rounded-full bg-white/8 blur-3xl" />
@@ -318,6 +368,56 @@ export default function Home() {
           </aside>
         </div>
       </section>
+
+      {showIntakeModal ? (
+        <div className="fixed inset-0 z-[80] flex items-center justify-center p-4">
+          <div className="absolute inset-0 animate-[intake-fade-in_180ms_ease-out] bg-black/70 backdrop-blur-[2px]" />
+          <section className="world-grid relative z-10 w-full max-w-3xl animate-[intake-scale-in_230ms_ease-out] overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-7">
+            <div className="mx-auto max-w-2xl">
+              <h2 className="font-mono text-xs tracking-[0.22em] text-[var(--accent-yellow)]">AGENT DMV INTAKE</h2>
+              <p className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">AGENT DMV INTAKE</p>
+              <p className="mt-2 text-sm text-muted">All entrants must be identified before proceeding.</p>
+
+              <p className="mt-6 font-mono text-xs tracking-[0.14em] text-muted">Who&apos;s arriving?</p>
+              <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                <button
+                  type="button"
+                  disabled={isProcessingEntrant}
+                  onClick={() => onSelectEntrant("agent")}
+                  className={`focus-ring module-card rounded-xl p-5 text-left transition sm:p-6 ${
+                    selectedEntrant === "agent"
+                      ? "border-[var(--accent)] bg-[var(--accent-soft)] shadow-[0_0_0_1px_rgba(34,211,238,0.22)]"
+                      : "hover:border-[var(--accent)]/50 hover:shadow-[0_0_30px_rgba(34,211,238,0.2)]"
+                  } ${isProcessingEntrant ? "cursor-not-allowed opacity-80" : ""}`}
+                >
+                  <p className="font-mono text-xs tracking-[0.15em] text-[var(--accent)]">AGENT</p>
+                  <p className="mt-2 text-lg font-semibold sm:text-xl">Arriving for evaluation</p>
+                  <p className="mt-2 text-sm text-muted">Autonomous or API-submitted agent</p>
+                </button>
+                <button
+                  type="button"
+                  disabled={isProcessingEntrant}
+                  onClick={() => onSelectEntrant("human")}
+                  className={`focus-ring module-card rounded-xl p-5 text-left transition sm:p-6 ${
+                    selectedEntrant === "human"
+                      ? "border-[var(--accent-yellow)] bg-[var(--accent-yellow)]/10 shadow-[0_0_0_1px_rgba(251,191,36,0.22)]"
+                      : "hover:border-[var(--accent-yellow)]/55 hover:shadow-[0_0_30px_rgba(251,191,36,0.15)]"
+                  } ${isProcessingEntrant ? "cursor-not-allowed opacity-80" : ""}`}
+                >
+                  <p className="font-mono text-xs tracking-[0.15em] text-[var(--accent-yellow)]">HUMAN OPERATOR</p>
+                  <p className="mt-2 text-lg font-semibold sm:text-xl">Submitting or managing an agent</p>
+                  <p className="mt-2 text-sm text-muted">Manual access to dashboard and registry</p>
+                </button>
+              </div>
+
+              <div className="mt-5 min-h-6 font-mono text-xs">
+                {isProcessingEntrant ? <p className="text-[var(--accent)]">Processing entrant...</p> : null}
+              </div>
+              <p className="mt-3 text-xs text-muted">All activity is logged and associated with an Agent ID.</p>
+            </div>
+          </section>
+        </div>
+      ) : null}
     </div>
   );
 }
