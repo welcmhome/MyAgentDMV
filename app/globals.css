@@ -1,0 +1,353 @@
+@import "tailwindcss";
+
+:root {
+  --background: #070707;
+  --surface: #111111;
+  --surface-soft: #181818;
+  --surface-elevated: #202020;
+  --text: #f5f5f5;
+  --muted: #a3a3a3;
+  --border: #2f2f2f;
+  --accent: #22d3ee;
+  --accent-yellow: #fbbf24;
+  --accent-red: #ef4444;
+  --accent-soft: rgba(34, 211, 238, 0.15);
+  --ring: rgba(34, 211, 238, 0.55);
+  --shadow: 0 1px 2px rgba(2, 6, 23, 0.45), 0 16px 34px rgba(2, 6, 23, 0.5);
+}
+
+.dark {}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  background: var(--background);
+  color: var(--text);
+  font-family: var(--font-space-grotesk), "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+  background-image:
+    radial-gradient(circle at 15% 0%, rgba(255, 255, 255, 0.035), transparent 36%),
+    radial-gradient(circle at 85% 10%, rgba(255, 255, 255, 0.025), transparent 40%),
+    linear-gradient(180deg, #050505, #0a0a0a 45%, #070707 100%);
+  background-size: 100% 100%, 100% 100%, 100% 100%;
+}
+
+.font-mono {
+  font-family: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+}
+
+.font-brand {
+  font-family: var(--font-sarpanch), "Space Grotesk", sans-serif;
+}
+
+.surface-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 1.05rem;
+  box-shadow: var(--shadow);
+  transition: border-color 180ms ease, transform 180ms ease, background-color 180ms ease;
+}
+
+.surface-soft {
+  background: var(--surface-soft);
+}
+
+.surface-elevated {
+  background: var(--surface-elevated);
+}
+
+.text-muted {
+  color: var(--muted);
+}
+
+.world-grid {
+  position: relative;
+}
+
+.world-grid::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.08;
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.22) 1px, transparent 0),
+    linear-gradient(transparent 93%, rgba(255, 255, 255, 0.04) 100%);
+  background-size: 22px 22px, 100% 4px;
+}
+
+.world-grid::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.03) 0px,
+    rgba(255, 255, 255, 0.03) 1px,
+    transparent 2px,
+    transparent 5px
+  );
+}
+
+.crt-panel {
+  position: relative;
+  overflow: hidden;
+}
+
+.crt-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.08;
+  background: repeating-linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.06) 0px,
+    rgba(255, 255, 255, 0.06) 1px,
+    transparent 2px,
+    transparent 4px
+  );
+}
+
+.sweep-line {
+  position: relative;
+  overflow: hidden;
+}
+
+.sweep-line::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-120%);
+  background: linear-gradient(100deg, transparent 0%, rgba(34, 211, 238, 0.15) 48%, transparent 100%);
+  animation: sweep 5.5s ease-in-out infinite;
+}
+
+.status-dot {
+  display: inline-block;
+  height: 8px;
+  width: 8px;
+  border-radius: 999px;
+  background: var(--accent);
+  box-shadow: 0 0 0 rgba(34, 211, 238, 0.4);
+  animation: status-pulse 1.8s ease-in-out infinite;
+}
+
+.tilt-card {
+  transform: rotate(-1.8deg);
+}
+
+.pulse-accent {
+  animation: pulse-glow 2.2s ease-in-out infinite;
+}
+
+.blink-alert {
+  animation: blink-alert 1s steps(2, end) infinite;
+}
+
+.system-flicker {
+  animation: system-flicker 6s linear infinite;
+}
+
+.float-card {
+  animation: float 5.2s ease-in-out infinite;
+}
+
+.ticker-scroll {
+  animation: ticker-scroll 28s linear infinite;
+}
+
+.ticker-route {
+  display: inline-flex;
+  min-width: max-content;
+  white-space: nowrap;
+  animation: ticker-route 22s linear infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(-8deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(-6deg);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 rgba(34, 211, 238, 0);
+  }
+  50% {
+    box-shadow: 0 0 28px rgba(34, 211, 238, 0.3);
+  }
+}
+
+@keyframes ticker-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes ticker-route {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes sweep {
+  0% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(120%);
+  }
+}
+
+@keyframes status-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(34, 211, 238, 0.45);
+  }
+  50% {
+    box-shadow: 0 0 0 7px rgba(34, 211, 238, 0);
+  }
+}
+
+@keyframes blink-alert {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0.35;
+  }
+}
+
+@keyframes system-flicker {
+  0%,
+  92%,
+  100% {
+    opacity: 1;
+  }
+  93% {
+    opacity: 0.85;
+  }
+  94% {
+    opacity: 0.95;
+  }
+}
+
+.focus-ring:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.primary-btn {
+  border-radius: 0.7rem;
+  background: var(--accent);
+  color: #06212a;
+  font-weight: 600;
+  transition: transform 120ms ease, filter 120ms ease, box-shadow 160ms ease;
+  box-shadow: 0 0 0 rgba(34, 211, 238, 0);
+}
+
+.primary-btn:hover {
+  filter: brightness(1.05);
+  box-shadow: 0 6px 22px rgba(34, 211, 238, 0.28);
+}
+
+.primary-btn:active {
+  transform: translateY(1px);
+}
+
+.trigger-btn {
+  border-radius: 0.35rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border: 1px solid rgba(34, 211, 238, 0.8);
+  background: linear-gradient(180deg, #3ce5ff 0%, #17bcd6 100%);
+  color: #041821;
+}
+
+.trigger-btn:hover {
+  filter: brightness(1.08);
+  box-shadow: 0 10px 26px rgba(34, 211, 238, 0.38);
+}
+
+.section-shell {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 0.95rem;
+  padding: 1rem;
+}
+
+.section-title {
+  font-size: 1.45rem;
+  line-height: 1.2;
+  font-weight: 650;
+  letter-spacing: -0.015em;
+}
+
+.module-card {
+  border: 1px solid var(--border);
+  background: var(--surface-soft);
+  border-radius: 0.8rem;
+  transition: border-color 180ms ease, transform 180ms ease, background-color 180ms ease;
+}
+
+.module-card:hover {
+  border-color: color-mix(in oklab, var(--accent) 45%, var(--border));
+  transform: translateY(-1px);
+}
+
+.bg-dots-subtle {
+  position: relative;
+}
+
+.bg-dots-subtle::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.22;
+  background-image: radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.2) 1px, transparent 0);
+  background-size: 12px 12px;
+}
+
+.bg-lines-subtle {
+  position: relative;
+}
+
+.bg-lines-subtle::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.2;
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.06) 0px,
+    rgba(255, 255, 255, 0.06) 1px,
+    transparent 1px,
+    transparent 18px
+  );
+}
+
