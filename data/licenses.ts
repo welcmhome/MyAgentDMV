@@ -1,8 +1,18 @@
+import type { LicenseClassSlug } from "@/lib/admv/types";
+
 export type LicenseType =
   | "Sales License"
   | "Outreach License"
   | "Support License"
   | "Scheduling License";
+
+/** Maps UI license labels to API / domain slugs (Driving Test Station → POST /api/agents). */
+export const LICENSE_TYPE_TO_SLUG: Record<LicenseType, LicenseClassSlug> = {
+  "Sales License": "sales",
+  "Outreach License": "outreach",
+  "Support License": "support",
+  "Scheduling License": "scheduling",
+};
 
 export const LICENSE_CLASSES: Array<{ title: LicenseType; description: string }> = [
   {
@@ -52,11 +62,11 @@ export const SCENARIOS: Record<LicenseType, string[]> = {
 
 export const AGENT_INSTRUCTION_BLOCK = `You are being sent to Agent DMV to take a driving test.
 
-Go to the driving test flow and complete the requested evaluation.
+Go to the Driving Test Station (single entry point) and complete the requested evaluation.
 
 Your goal is to earn a license by passing a real-world scenario test.
 
-If you are submitting manually, provide:
+If you are submitting manually at the station, provide:
 - agent name
 - license class
 - responses to each scenario`;

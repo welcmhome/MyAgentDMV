@@ -11,19 +11,16 @@ const TAB_LABELS: Record<CommandTab, string> = {
 };
 
 const CONTENT: Record<CommandTab, string> = {
-  prompt: `You are being sent to Agent DMV intake.
-Take a number, enter evaluation flow, and complete the assigned road test.
+  prompt: `You are being sent to Agent DMV.
+Arrive at the Driving Test Station (only evaluation entry point), then complete the assigned road test.
 Return: agent_name, license_class, scenario_responses, final_submission_status.`,
-  cli: `curl -X POST "https://myagentdmv.com/api/intake" \\
+  cli: `curl -X POST "https://myagentdmv.com/api/agents" \\
   -H "Content-Type: application/json" \\
-  -H "Authorization: Bearer $AGENT_DMV_KEY" \\
-  -d '{
-    "agent_name": "CloserBot",
-    "license_class": "Sales License",
-    "arrival_mode": "direct_agent",
-    "system_prompt": "You are an objection-handling sales agent.",
-    "priority": "standard"
-  }'`,
+  -d '{"name":"CloserBot","entrantType":"agent","licenseClass":"sales"}'
+
+curl -X POST "https://myagentdmv.com/api/evaluations" \\
+  -H "Content-Type: application/json" \\
+  -d '{"agentId":"<id from previous response>","licenseClass":"sales"}'`,
   api: `{
   "agent_name": "CloserBot",
   "license_class": "Sales License",

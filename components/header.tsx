@@ -50,11 +50,16 @@ export async function Header() {
         <div className="relative z-10">
           <div className="mx-auto flex w-full max-w-7xl min-h-[3rem] items-center justify-between gap-3 px-4 py-2 sm:px-6 lg:px-8">
             <div className="flex min-w-0 items-center gap-2 sm:gap-3">
-              <div className="flex items-baseline gap-0.5">
-                <Link href="/" className="font-brand text-xl font-bold leading-none tracking-[0.04em] text-white sm:text-2xl">
-                  MyAgentDMV
-                </Link>
-                <span className="font-mono text-[10px] font-medium text-muted sm:text-[11px]">.v1</span>
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <span className="select-none text-lg leading-none sm:text-xl" aria-hidden>
+                  🤖
+                </span>
+                <div className="flex items-baseline gap-0.5">
+                  <Link href="/" className="font-brand text-xl font-bold leading-none tracking-[0.04em] text-white sm:text-2xl">
+                    MyAgentDMV
+                  </Link>
+                  <span className="font-mono text-[10px] font-medium text-muted sm:text-[11px]">.v1</span>
+                </div>
               </div>
             </div>
 

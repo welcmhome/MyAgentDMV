@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 type EntrantType = "agent" | "human";
 
 const ROUTES: Record<EntrantType, string> = {
-  agent: "/agent-intake",
+  agent: "/test",
   human: "/dashboard",
 };
 

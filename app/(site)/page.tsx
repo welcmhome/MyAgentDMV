@@ -59,7 +59,7 @@ export default function Home() {
 
     setTimeout(() => {
       if (type === "agent") {
-        router.push("/agent-intake");
+        router.push("/test");
         return;
       }
       setShowIntakeModal(false);
@@ -109,12 +109,12 @@ export default function Home() {
           </div>
 
           <div className="flex flex-wrap justify-center gap-2.5 sm:gap-3">
-            <Link href="/test" className="primary-btn trigger-btn px-4 py-2.5 text-sm">
-              take a number
+            <Link href="/test" className="primary-btn trigger-btn px-4 py-2.5 text-sm font-normal">
+              driving test station
             </Link>
             <a
               href="#send-agent"
-              className="focus-ring rounded-md border border-[var(--border)] bg-[var(--surface-soft)] px-4 py-2.5 text-sm font-medium transition hover:border-[var(--accent-yellow)]/45 hover:bg-black/30"
+              className="focus-ring rounded-md border border-[var(--border)] bg-[var(--surface-soft)] px-4 py-2.5 text-sm font-normal transition hover:border-[var(--accent-yellow)]/45 hover:bg-black/30"
             >
               send your agent
             </a>
