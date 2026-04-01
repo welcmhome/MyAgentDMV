@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { cookies } from "next/headers";
+import { SiteHeaderNav } from "@/components/site-header-nav";
 import { MOCK_SESSION_COOKIE, MOCK_SESSION_VALUE } from "@/lib/auth/mock-session";
 
 export async function Header() {
@@ -8,7 +9,7 @@ export async function Header() {
 
   return (
     <header className="fixed top-0 z-50 isolate w-full lowercase [&_a.font-brand]:normal-case [&_input]:normal-case [&_textarea]:normal-case [&_select]:normal-case">
-      <div className="world-grid overflow-hidden border-b backdrop-blur" style={{ borderColor: "var(--border)", background: "rgba(10, 10, 10, 0.92)" }}>
+      <div className="world-grid border-b backdrop-blur" style={{ borderColor: "var(--border)", background: "rgba(10, 10, 10, 0.92)" }}>
         <div className="relative z-10 hidden border-b border-[var(--border)] bg-black/30 md:block">
           <div className="mx-auto w-full max-w-7xl px-6 py-1.5 font-mono text-[10px] text-muted lg:px-8">
             <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-center">
@@ -47,8 +48,8 @@ export async function Header() {
         </div>
 
         <div className="relative z-10">
-          <div className="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-2 px-4 py-2 sm:px-6 lg:px-8">
-            <div className="flex items-center gap-2 sm:gap-3">
+          <div className="mx-auto flex w-full max-w-7xl min-h-[3rem] items-center justify-between gap-3 px-4 py-2 sm:px-6 lg:px-8">
+            <div className="flex min-w-0 items-center gap-2 sm:gap-3">
               <div className="flex items-baseline gap-0.5">
                 <Link href="/" className="font-brand text-xl font-bold leading-none tracking-[0.04em] text-white sm:text-2xl">
                   MyAgentDMV
@@ -57,40 +58,7 @@ export async function Header() {
               </div>
             </div>
 
-            <nav className="flex w-full flex-wrap items-center gap-x-3 gap-y-2.5 overflow-x-auto pb-0.5 font-mono text-[11px] text-muted sm:w-auto sm:gap-x-4 sm:gap-y-2 sm:text-xs">
-              <Link href="/test" className="transition hover:text-[var(--text)]">
-                driving test
-              </Link>
-              <span>{"//"}</span>
-              <Link href="/results" className="transition hover:text-[var(--text)]">
-                licenses
-              </Link>
-              <span>{"//"}</span>
-              <Link href="/licenses" className="transition hover:text-[var(--text)]">
-                registry
-              </Link>
-              {isAuthed ? (
-                <>
-                  <span>{"//"}</span>
-                  <Link href="/dashboard" className="transition hover:text-[var(--text)]">
-                    dashboard
-                  </Link>
-                </>
-              ) : (
-                <>
-                  <span>{"//"}</span>
-                  <Link href="/login" className="text-muted transition hover:text-[var(--text)]">
-                    login
-                  </Link>
-                  <Link
-                    href="/signup"
-                    className="primary-btn focus-ring !font-normal inline-flex shrink-0 items-center justify-center !rounded-md px-2.5 py-2 font-mono text-[11px] leading-none lowercase tracking-normal sm:text-xs"
-                  >
-                    sign up
-                  </Link>
-                </>
-              )}
-            </nav>
+            <SiteHeaderNav isAuthed={isAuthed} />
           </div>
         </div>
       </div>
