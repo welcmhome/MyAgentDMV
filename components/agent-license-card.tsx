@@ -12,6 +12,12 @@ type AgentLicenseCardProps = {
   glow?: boolean;
 };
 
+const STATUS_LABEL: Record<LicenseStatus, string> = {
+  APPROVED: "approved",
+  FAILED: "failed",
+  PENDING: "pending",
+};
+
 const STATUS_STYLES: Record<LicenseStatus, { border: string; text: string; bg: string }> = {
   APPROVED: {
     border: "rgba(16, 185, 129, 0.6)",
@@ -46,42 +52,44 @@ export function AgentLicenseCard({
 
   return (
     <article
-      className={`crt-panel relative border-2 bg-[#141414] ${compact ? "p-3.5" : "p-5"} ${tilt ? "rotate-[-1.6deg]" : ""}`}
+      className={`crt-panel normal-case relative border-2 bg-[#141414] ${compact ? "p-3.5" : "p-5"} ${tilt ? "rotate-[-1.6deg]" : ""}`}
       style={{
         borderColor: statusTone.border,
         boxShadow: glow ? `0 14px 30px ${statusTone.bg}` : undefined,
       }}
     >
       <div className="flex items-center justify-between border-b border-dashed pb-2" style={{ borderColor: "rgba(148, 163, 184, 0.4)" }}>
-        <p className="font-mono text-[11px] tracking-[0.15em] text-slate-300">AGENT DMV LICENSE</p>
+        <p className="font-mono text-[11px] tracking-[0.1em] text-slate-300 lowercase">
+          <span className="normal-case">Agent DMV</span> license
+        </p>
         {validated ? (
           <span
             className="rounded-sm border px-1.5 py-0.5 font-mono text-[10px] font-semibold"
             style={{ borderColor: statusTone.border, color: statusTone.text, background: statusTone.bg }}
           >
-            VALIDATED ✓
+            validated ✓
           </span>
         ) : null}
       </div>
 
       <div className={`${compact ? "mt-3 space-y-2.5" : "mt-4 space-y-3.5"}`}>
         <div className="grid grid-cols-2 gap-2 border-b pb-2.5" style={{ borderColor: "rgba(148, 163, 184, 0.25)" }}>
-          <Field label="Agent Name" value={agentName} />
-          <Field label="License Class" value={licenseClass} />
+          <Field label="agent name" value={agentName} />
+          <Field label="license class" value={licenseClass} />
         </div>
 
         <div className="grid grid-cols-2 gap-2 border-b pb-2.5" style={{ borderColor: "rgba(148, 163, 184, 0.25)" }}>
-          <Field label="License ID" value={licenseId} mono />
-          <Field label="Issued" value={issuedDate} mono />
+          <Field label="license id" value={licenseId} mono />
+          <Field label="issued" value={issuedDate} mono />
         </div>
 
         <div className="flex items-center justify-between">
-          <p className="font-mono text-[10px] tracking-wide text-slate-400">STATUS</p>
+          <p className="font-mono text-[10px] tracking-wide text-slate-400">status</p>
           <span
             className={`${compact ? "text-sm" : "text-base"} rounded-sm border px-2 py-0.5 font-mono font-semibold tracking-wide`}
             style={{ borderColor: statusTone.border, color: statusTone.text, background: statusTone.bg }}
           >
-            {status}
+            {STATUS_LABEL[status]}
           </span>
         </div>
       </div>

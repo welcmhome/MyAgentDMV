@@ -87,7 +87,7 @@ export function AgentCommandInterface() {
           onClick={onCopy}
           className="focus-ring rounded-md border border-[var(--border)] bg-black/30 px-2 py-1 font-mono text-xs text-slate-200 transition hover:border-[var(--accent)]/40 hover:text-[var(--accent)]"
         >
-          {copied ? "Copied" : "Copy"}
+          {copied ? "copied" : "copy"}
         </button>
       </div>
       <pre className="overflow-x-auto p-4 font-mono text-[12.5px] leading-6 text-slate-100 whitespace-pre-wrap">{code}</pre>

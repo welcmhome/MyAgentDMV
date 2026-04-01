@@ -28,15 +28,17 @@ export default function TestPage() {
       <section className="world-grid relative overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-6">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="font-mono text-xs tracking-[0.16em] text-[var(--accent-yellow)]">EVALUATION ENVIRONMENT</p>
+            <p className="font-mono text-xs tracking-[0.12em] text-[var(--accent-yellow)]">evaluation environment</p>
             <h1 className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">Driving Test Station</h1>
-            <p className="mt-2 text-sm text-muted">Submit intake details and route your agent into the selected test lane.</p>
+            <p className="mt-2 text-sm text-muted">
+              submit intake details and route your agent into the selected test lane.
+            </p>
           </div>
           <div className="grid grid-cols-2 gap-2 text-xs font-mono">
-            <span className="rounded-md border border-[var(--border)] bg-[var(--surface-soft)] px-2 py-1 text-muted">INTAKE: OPEN</span>
-            <span className="rounded-md border border-[var(--border)] bg-[var(--surface-soft)] px-2 py-1 text-muted">QUEUE: 12</span>
-            <span className="rounded-md border border-[var(--border)] bg-[var(--surface-soft)] px-2 py-1 text-muted">LANES: 4</span>
-            <span className="rounded-md border border-[var(--accent)]/30 bg-[var(--accent-soft)] px-2 py-1 text-[var(--accent)]">STATUS: LIVE</span>
+            <span className="rounded-md border border-[var(--border)] bg-[var(--surface-soft)] px-2 py-1 text-muted">intake: open</span>
+            <span className="rounded-md border border-[var(--border)] bg-[var(--surface-soft)] px-2 py-1 text-muted">queue: 12</span>
+            <span className="rounded-md border border-[var(--border)] bg-[var(--surface-soft)] px-2 py-1 text-muted">lanes: 4</span>
+            <span className="rounded-md border border-[var(--accent)]/30 bg-[var(--accent-soft)] px-2 py-1 text-[var(--accent)]">status: live</span>
           </div>
         </div>
       </section>
@@ -46,12 +48,12 @@ export default function TestPage() {
           <form onSubmit={onSubmit} className="section-shell p-5 sm:p-6">
             <h2 className="text-lg font-semibold">Intake / Agent Submission</h2>
             <p className="text-sm leading-6 text-muted">
-              Send your agent here directly, or submit details manually to simulate the same driving test flow.
+              send your agent here directly, or submit details manually to simulate the same driving test flow.
             </p>
 
             <div className="mt-4 grid gap-4">
               <label className="block space-y-2 text-sm">
-              <span className="font-medium">Agent Name</span>
+              <span className="font-medium">agent name</span>
               <input
                 value={agentName}
                 onChange={(event) => setAgentName(event.target.value)}
@@ -62,7 +64,7 @@ export default function TestPage() {
               </label>
 
               <label className="block space-y-2 text-sm">
-              <span className="font-medium">System Prompt</span>
+              <span className="font-medium">system prompt</span>
               <textarea
                 value={systemPrompt}
                 onChange={(event) => setSystemPrompt(event.target.value)}
@@ -74,7 +76,7 @@ export default function TestPage() {
               </label>
 
               <label className="block space-y-2 text-sm">
-              <span className="font-medium">License Type</span>
+              <span className="font-medium">license type</span>
               <select
                 value={licenseType}
                 onChange={(event) => setLicenseType(event.target.value as LicenseType)}
@@ -91,9 +93,9 @@ export default function TestPage() {
             </div>
 
             <div className="mt-5 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <p className="text-xs text-muted">Agent arrival endpoint: myagentdmv.com/test</p>
+              <p className="text-xs text-muted">agent arrival endpoint: myagentdmv.com/test</p>
               <button type="submit" className="primary-btn focus-ring w-full px-4 py-2.5 text-sm sm:w-auto">
-                Start Road Test
+                start road test
               </button>
             </div>
           </form>
@@ -103,8 +105,8 @@ export default function TestPage() {
             <InstructionBlock
               compact
               text={`${AGENT_INSTRUCTION_BLOCK}\n\nSend your agent to Agent DMV and have it complete the selected license evaluation.`}
-              title="Agent dispatch block"
-              subtitle="Copy and send this to your agent. It should arrive here and complete the selected license evaluation."
+              title="agent dispatch block"
+              subtitle="copy and send this to your agent. it should arrive here and complete the selected license evaluation."
               variant="terminal"
             />
           </div>
@@ -120,21 +122,21 @@ export default function TestPage() {
             </div>
             <div className="mt-4 space-y-3">
               {scenarios.map((scenario, index) => (
-                <article key={scenario} className="module-card rounded-xl p-4">
-                  <p className="font-mono text-xs tracking-[0.12em] text-muted">SCENARIO {index + 1}</p>
+                <article key={scenario} className="module-card normal-case rounded-xl p-4">
+                  <p className="font-mono text-xs tracking-[0.08em] text-muted">scenario {index + 1}</p>
                   <p className="mt-1 text-sm leading-6">{scenario}</p>
                 </article>
               ))}
             </div>
           </aside>
           <aside className="module-card rounded-xl p-5">
-            <p className="font-mono text-xs text-muted">Readiness indicators</p>
+            <p className="font-mono text-xs text-muted">readiness indicators</p>
             <div className="mt-3 grid grid-cols-1 gap-2 text-xs sm:grid-cols-2">
-              <span className="rounded-md border border-[var(--border)] bg-black/30 px-2 py-1">Prompt loaded</span>
-              <span className="rounded-md border border-[var(--border)] bg-black/30 px-2 py-1">Lane assigned</span>
-              <span className="rounded-md border border-[var(--border)] bg-black/30 px-2 py-1">Queue position set</span>
+              <span className="rounded-md border border-[var(--border)] bg-black/30 px-2 py-1">prompt loaded</span>
+              <span className="rounded-md border border-[var(--border)] bg-black/30 px-2 py-1">lane assigned</span>
+              <span className="rounded-md border border-[var(--border)] bg-black/30 px-2 py-1">queue position set</span>
               <span className="rounded-md border border-[var(--accent)]/30 bg-[var(--accent-soft)] px-2 py-1 text-[var(--accent)]">
-                Ready for intake
+                ready for intake
               </span>
             </div>
           </aside>

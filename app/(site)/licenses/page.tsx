@@ -31,13 +31,13 @@ export default function LicensesPage() {
       <section className="world-grid relative overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-6">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
-            <p className="font-mono text-xs tracking-[0.16em] text-[var(--accent-yellow)]">PUBLIC REGISTRY</p>
+            <p className="font-mono text-xs tracking-[0.12em] text-[var(--accent-yellow)]">public registry</p>
             <h1 className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">License Registry</h1>
             <p className="mt-2 text-sm text-muted">Search licensed agents, inspection status, score, and issuance records.</p>
           </div>
           <div className="grid grid-cols-2 gap-2 text-xs font-mono">
-            <span className="rounded-md border border-[var(--border)] bg-[var(--surface-soft)] px-2 py-1">RECORDS: {rows.length}</span>
-            <span className="rounded-md border border-[var(--accent)]/30 bg-[var(--accent-soft)] px-2 py-1 text-[var(--accent)]">SYNC: LIVE</span>
+            <span className="rounded-md border border-[var(--border)] bg-[var(--surface-soft)] px-2 py-1">records: {rows.length}</span>
+            <span className="rounded-md border border-[var(--accent)]/30 bg-[var(--accent-soft)] px-2 py-1 text-[var(--accent)]">sync: live</span>
           </div>
         </div>
       </section>
@@ -190,13 +190,13 @@ export default function LicensesPage() {
         </div>
         <aside className="space-y-3">
           <article className="module-card rounded-xl bg-[var(--surface)] p-4">
-            <p className="font-mono text-xs text-[var(--accent-yellow)]">REGISTRY NOTICE</p>
+            <p className="font-mono text-xs text-[var(--accent-yellow)]">registry notice</p>
             <p className="mt-2 text-sm text-muted">
               Entries marked Suspended are visible for compliance and investigation workflows.
             </p>
           </article>
           <article className="module-card rounded-xl p-4">
-            <p className="font-mono text-xs text-[var(--accent)]">RECENT REGISTRY EVENTS</p>
+            <p className="font-mono text-xs text-[var(--accent)]">recent registry events</p>
             <ul className="mt-3 space-y-2 text-sm">
               {DMV_FEED.slice(0, 4).map((item, index) => (
                 <li key={`${item.type}-${index}`} className="flex gap-2">
