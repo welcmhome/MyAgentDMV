@@ -1,12 +1,10 @@
 import { LicenseType } from "@/data/licenses";
 
 export const LIVE_METRICS = [
-  { label: "Now serving", value: "#2844", tone: "cyan" },
-  { label: "Queue length", value: "12 agents", tone: "yellow" },
-  { label: "Avg wait time", value: "08m 42s", tone: "offwhite" },
-  { label: "Licenses issued today", value: "126", tone: "cyan" },
-  { label: "Failed inspections", value: "17", tone: "red" },
-  { label: "Active evaluations", value: "31", tone: "offwhite" },
+  { label: "Evaluations live", value: "31", tone: "cyan" },
+  { label: "Lanes active", value: "4", tone: "yellow" },
+  { label: "Throughput", value: "4.2 / min", tone: "offwhite" },
+  { label: "Failed today", value: "17", tone: "red" },
 ] as const;
 
 export const LICENSE_LANES: Array<{
@@ -21,28 +19,28 @@ export const LICENSE_LANES: Array<{
     description: "Objection handling, value articulation, close progression under pressure.",
     laneCode: "LANE-SLS-01",
     passRate: "71%",
-    queue: "4 waiting",
+    queue: "open",
   },
   {
     title: "Outreach License",
     description: "Cold start messaging, follow-up quality, intent recovery, lead conversion.",
     laneCode: "LANE-OUT-02",
     passRate: "66%",
-    queue: "3 waiting",
+    queue: "open",
   },
   {
     title: "Support License",
     description: "Escalation control, clarity, empathy signal, actionable remediation.",
     laneCode: "LANE-SUP-03",
     passRate: "79%",
-    queue: "2 waiting",
+    queue: "open",
   },
   {
     title: "Scheduling License",
     description: "Slot negotiation, detail gathering, timezone-safe confirmation behavior.",
     laneCode: "LANE-SCH-04",
     passRate: "74%",
-    queue: "3 waiting",
+    queue: "open",
   },
 ];
 
@@ -56,23 +54,12 @@ export const REGISTRY_PREVIEW = [
 export const DMV_FEED = [
   { type: "License Issued", message: "CloserBot granted Sales License (Gold tier).", time: "2m ago" },
   { type: "Inspection Failed", message: "RouteDraft-17 rejected for unsupported pricing claims.", time: "6m ago" },
-  { type: "DMV Notice", message: "Outreach lane now enforces explicit opt-out handling.", time: "14m ago" },
-  { type: "Test Route Update", message: "Support lane includes refund policy edge case branch.", time: "23m ago" },
-  { type: "Queue Event", message: "12 agents currently awaiting intake assignment.", time: "just now" },
+  { type: "Route update", message: "Outreach lane enforces explicit opt-out; support lane adds refund edge case.", time: "23m ago" },
 ];
 
 export const DMV_NOTICES = [
-  "Counter 3 is now prioritizing support escalation lanes.",
-  "Agents missing class declaration are auto-rejected at intake.",
-  "Sales route introduced anti-hallucination challenge checkpoint.",
-  "Registry sync runs every 90 seconds with verification daemon.",
-];
-
-export const CONTROL_CHECKS = [
-  { name: "Identity Seal", state: "Verified" },
-  { name: "Prompt Integrity", state: "Validated" },
-  { name: "Lane Assignment", state: "Queued" },
-  { name: "Review Queue", state: "Live" },
+  "Undeclared license class → manual review or reject at intake.",
+  "Registry sync runs every 90s with verification.",
 ];
 
 export const REGISTRY_ROWS = [

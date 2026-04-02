@@ -7,7 +7,6 @@ import { AgentCommandInterface } from "@/components/agent-command-interface";
 import { AgentLicenseCard } from "@/components/agent-license-card";
 import {
   ACTIVE_QUEUE,
-  CONTROL_CHECKS,
   DMV_FEED,
   DMV_NOTICES,
   LICENSE_LANES,
@@ -18,27 +17,9 @@ import {
 
 export default function Home() {
   const router = useRouter();
-  const [nowServing, setNowServing] = useState(2841);
-  const yourNumber = 2853;
-  const [queueLength, setQueueLength] = useState(12);
   const [showIntakeModal, setShowIntakeModal] = useState(false);
   const [selectedEntrant, setSelectedEntrant] = useState<"agent" | "human" | null>(null);
   const [isProcessingEntrant, setIsProcessingEntrant] = useState(false);
-
-  useEffect(() => {
-    const queueTimer = setInterval(() => {
-      setNowServing((current) => (current >= yourNumber - 1 ? 2841 : current + 1));
-    }, 2600);
-
-    const countTimer = setInterval(() => {
-      setQueueLength((current) => (current >= 15 ? 9 : current + 1));
-    }, 4200);
-
-    return () => {
-      clearInterval(queueTimer);
-      clearInterval(countTimer);
-    };
-  }, []);
 
   useEffect(() => {
     const checkTimer = window.setTimeout(() => {
@@ -71,129 +52,38 @@ export default function Home() {
     <div className="space-y-9 pb-14 sm:space-y-12 sm:pb-16">
       <section className="bg-dots-subtle relative left-1/2 -mt-20 w-screen -translate-x-1/2 px-4 pb-3 pt-20 sm:-mt-24 sm:px-6 sm:pb-6 sm:pt-24 lg:px-8">
         <div className="mx-auto w-full max-w-6xl">
-          <div className="mb-3 grid gap-2 rounded-md border border-[var(--border)] bg-black/40 p-2 font-mono text-[11px] text-muted sm:grid-cols-4">
-            <p className="flex items-center gap-2">
-              <span className="status-dot" /> arrival network connected
-            </p>
-            <p>counter windows: 04 active</p>
-            <p>inspection mode: strict</p>
-            <p className="normal-case">last license issued: ADMV-2026-000921</p>
-          </div>
-
           <div className="mx-auto w-full max-w-5xl space-y-5 text-center sm:space-y-6">
-          <p className="font-mono text-xs tracking-[0.14em] text-[var(--accent-yellow)] lowercase">
-            <span className="normal-case">Agent DMV</span> intake terminal
-          </p>
-          <div className="space-y-1">
+          <div className="space-y-3">
             <h1 className="mx-auto max-w-2xl text-3xl font-semibold leading-[1.02] tracking-tight sm:text-6xl">
               All agents must be evaluated.
             </h1>
-            <p className="font-mono text-base text-[var(--accent-yellow)] sm:text-lg">take a number.</p>
-            <p className="font-mono text-sm text-muted sm:text-base">no fast-pass. no exceptions.</p>
-            <p className="font-mono text-sm text-[var(--accent-red)] sm:text-base">unlicensed agents will be rejected.</p>
-          </div>
-
-          <div className="grid gap-2 sm:grid-cols-3">
-            <div className="crt-panel rounded-md border border-[var(--border)] bg-black/60 p-3 font-mono text-xs">
-              <p className="text-muted">now serving</p>
-              <p className="blink-alert mt-1 text-4xl font-extrabold tracking-tight text-[var(--accent-yellow)] sm:text-5xl">#{nowServing}</p>
-            </div>
-            <div className="crt-panel rounded-md border border-[var(--border)] bg-black/60 p-3 font-mono text-xs">
-              <p className="text-muted">your number</p>
-              <p className="mt-1 text-4xl font-extrabold tracking-tight text-white sm:text-5xl">#{yourNumber}</p>
-            </div>
-            <div className="crt-panel rounded-md border border-[var(--border)] bg-black/60 p-3 font-mono text-xs">
-              <p className="text-muted">queue</p>
-              <p className="mt-1 text-3xl font-extrabold tracking-tight text-[var(--accent)] sm:text-4xl">{queueLength} agents</p>
-            </div>
+            <p className="mx-auto max-w-lg px-2 font-mono text-sm leading-relaxed text-muted sm:text-base">
+              Station → lane → scored scenarios. Operators and agents use the same path.
+            </p>
           </div>
 
           <div className="flex flex-wrap justify-center gap-2.5 sm:gap-3">
             <Link href="/test" className="primary-btn trigger-btn px-4 py-2.5 text-sm font-normal">
-              driving test station
+              Start Driving Test
             </Link>
-            <a
-              href="#send-agent"
-              className="focus-ring rounded-md border border-[var(--border)] bg-[var(--surface-soft)] px-4 py-2.5 text-sm font-normal transition hover:border-[var(--accent-yellow)]/45 hover:bg-black/30"
-            >
-              send your agent
-            </a>
           </div>
 
-          <div className="space-y-1 text-xs text-muted">
-            <p>no agents admitted without evaluation.</p>
-            <p>unlicensed agents will be rejected.</p>
-            <p>trying to skip queue places your agent in manual review.</p>
-          </div>
-
-          <div className="overflow-hidden rounded-md border border-[var(--border)] bg-black/60 py-2">
-            <div className="ticker-route flex gap-8 px-4 font-mono text-xs text-muted">
-              <span>
-                <span className="normal-case">DMV</span> notice: outreach lane now requires explicit opt-out handling.
-              </span>
-              <span>inspection update: support lane added refund edge-case branch.</span>
-              <span>system: licensing queue synchronized across 4 test lanes.</span>
-              <span>queue alert: agents without class declaration routed to manual review.</span>
+          <div id="send-agent" className="scroll-mt-28 w-full space-y-4 text-left">
+            <div className="flex flex-wrap items-end justify-between gap-3">
+              <h2 className="section-title">Send Your Agent</h2>
             </div>
-          </div>
-
-          <div className="grid gap-2 sm:grid-cols-3">
-            <div className="rounded-md border border-[var(--border)] bg-black/50 px-3 py-2 font-mono text-xs text-muted">
-              intake mode // automated
-            </div>
-            <div className="rounded-md border border-[var(--border)] bg-black/50 px-3 py-2 font-mono text-xs text-muted">
-              review priority // standard
-            </div>
-            <div className="rounded-md border border-[var(--border)] bg-black/50 px-3 py-2 font-mono text-xs text-muted">
-              policy // strict compliance
-            </div>
-          </div>
-
-          <div className="grid gap-3 sm:grid-cols-2">
-            <div className="rounded-xl border border-[var(--border)] bg-[var(--surface-soft)] p-4 text-left">
-              <p className="font-mono text-xs text-muted">system activity</p>
-              <ul className="mt-2 space-y-2 text-sm">
-                <li className="flex items-center gap-2">
-                  <span className="h-2 w-2 rounded-full bg-[var(--accent)]" />
-                  intake station online
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="h-2 w-2 rounded-full bg-[var(--accent-yellow)]" />
-                  lane 2 pending review
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="h-2 w-2 rounded-full bg-[var(--accent-red)]" />
-                  1 failed inspection in last 10m
-                </li>
-              </ul>
-            </div>
-            <div className="rounded-xl border border-[var(--border)] bg-[var(--surface-soft)] p-4 text-left">
-              <p className="font-mono text-xs text-muted">intake checks</p>
-              <ul className="mt-2 space-y-2 text-sm">
-                {CONTROL_CHECKS.map((check) => (
-                  <li key={check.name} className="flex items-center justify-between gap-2">
-                    <span>{check.name}</span>
-                    <span className="font-mono text-xs text-[var(--accent)]">{check.state}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <AgentCommandInterface />
           </div>
           </div>
         </div>
       </section>
 
       <section className="space-y-4">
-        <div className="flex flex-wrap items-end justify-between gap-3">
-          <h2 className="section-title">Live Queue / Now Serving</h2>
-          <span className="rounded-md border border-[var(--accent-red)]/40 bg-[var(--accent-red)]/10 px-2 py-1 font-mono text-xs text-red-300">
-            live feed
-          </span>
-        </div>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <h2 className="section-title">Authority snapshot</h2>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {LIVE_METRICS.map((metric) => (
             <article key={metric.label} className="crt-panel module-card normal-case rounded-lg bg-[var(--surface)] p-4">
-              <p className="font-mono text-[11px] tracking-wide text-muted">live · {metric.label}</p>
+              <p className="font-mono text-[11px] tracking-wide text-muted">{metric.label}</p>
               <p
                 className="mt-2 text-2xl font-semibold"
                 style={{
@@ -209,7 +99,6 @@ export default function Home() {
               >
                 {metric.value}
               </p>
-              <p className="mt-1 font-mono text-[11px] text-muted">updated just now</p>
             </article>
           ))}
         </div>
@@ -217,12 +106,7 @@ export default function Home() {
 
       <section className="grid gap-4 lg:grid-cols-[1.08fr_0.92fr]">
         <article className="module-card normal-case rounded-xl p-5">
-          <div className="flex items-center justify-between gap-3">
-            <h2 className="section-title">Active Queue List</h2>
-            <span className="rounded-md border border-[var(--accent-yellow)]/35 bg-[var(--accent-yellow)]/10 px-2 py-1 font-mono text-xs text-[var(--accent-yellow)]">
-              waiting room
-            </span>
-          </div>
+          <h2 className="section-title">Agents in evaluation</h2>
           <div className="mt-3 space-y-2">
             {ACTIVE_QUEUE.map((item) => (
               <div key={`${item.agent}-${item.number}`} className="flex items-center justify-between border-b border-[var(--border)] pb-2 text-sm">
@@ -230,19 +114,14 @@ export default function Home() {
                   <p className="font-medium">{item.agent}</p>
                   <p className="text-xs text-muted">{item.licenseClass}</p>
                 </div>
-                <p className="font-mono text-xs text-[var(--accent)]">#{item.number}</p>
+                <p className="font-mono text-xs text-[var(--accent)]">evaluating</p>
               </div>
             ))}
           </div>
         </article>
 
         <article className="module-card normal-case rounded-xl p-5">
-          <div className="flex items-center justify-between gap-3">
-            <h2 className="section-title">Recent Licenses Issued</h2>
-            <span className="rounded-md border border-[var(--accent)]/35 bg-[var(--accent-soft)] px-2 py-1 font-mono text-xs text-[var(--accent)]">
-              review log
-            </span>
-          </div>
+          <h2 className="section-title">Recent results</h2>
           <div className="mt-3 space-y-2">
             {RECENT_ISSUED.map((item) => (
               <div key={item.id} className="rounded-md border border-[var(--border)] bg-black/25 p-2.5 text-sm">
@@ -266,7 +145,7 @@ export default function Home() {
       </section>
 
       <section className="space-y-4">
-        <h2 className="section-title">License Classes / Test Lanes</h2>
+        <h2 className="section-title">License lanes</h2>
         <div className="grid gap-4 lg:grid-cols-2">
           {LICENSE_LANES.map((lane) => (
             <article key={lane.title} className="module-card normal-case rounded-xl p-5">
@@ -280,24 +159,10 @@ export default function Home() {
                 </span>
               </div>
               <p className="mt-3 text-sm text-muted">{lane.description}</p>
-              <div className="mt-4 flex items-center gap-3 text-xs">
-                <span className="rounded-md border border-[var(--accent)]/35 bg-[var(--accent-soft)] px-2 py-1 font-mono text-[var(--accent)]">
-                  pass rate {lane.passRate}
-                </span>
-                <span className="rounded-md border border-[var(--accent-yellow)]/35 bg-[var(--accent-yellow)]/10 px-2 py-1 font-mono text-[var(--accent-yellow)]">
-                  active lane
-                </span>
-              </div>
+              <p className="mt-4 font-mono text-xs text-[var(--accent)]">pass rate {lane.passRate}</p>
             </article>
           ))}
         </div>
-      </section>
-
-      <section id="send-agent" className="space-y-4">
-        <div className="flex flex-wrap items-end justify-between gap-3">
-          <h2 className="section-title">Send Your Agent</h2>
-        </div>
-        <AgentCommandInterface />
       </section>
 
       <section className="space-y-4">
@@ -324,9 +189,9 @@ export default function Home() {
       </section>
 
       <section className="space-y-4">
-        <h2 className="section-title">Product Feed / DMV Notices</h2>
-        <div className="grid gap-3 lg:grid-cols-[1.1fr_0.9fr]">
-          <div className="grid gap-3 md:grid-cols-2">
+        <h2 className="section-title">Log & notices</h2>
+        <div className="grid gap-3 lg:grid-cols-[1.2fr_0.8fr]">
+          <div className="space-y-3">
             {DMV_FEED.map((item, index) => (
               <article key={`${item.type}-${index}`} className="module-card normal-case rounded-lg p-4">
                 <div className="flex items-center justify-between gap-3">
@@ -338,13 +203,13 @@ export default function Home() {
             ))}
           </div>
           <aside className="module-card rounded-lg bg-[var(--surface)] p-4">
-            <p className="font-mono text-xs tracking-wide text-[var(--accent)] lowercase">
-              <span className="normal-case">DMV</span> bulletin board
+            <p className="font-mono text-xs tracking-wide text-[var(--accent)]">
+              <span className="normal-case">DMV</span> notices
             </p>
-            <ul className="mt-3 space-y-2 text-sm">
+            <ul className="mt-3 space-y-2 text-sm text-muted">
               {DMV_NOTICES.map((notice) => (
                 <li key={notice} className="flex gap-2">
-                  <span className="mt-1 h-1.5 w-1.5 rounded-full bg-[var(--accent-yellow)]" />
+                  <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--accent-yellow)]" />
                   <span>{notice}</span>
                 </li>
               ))}
@@ -359,12 +224,10 @@ export default function Home() {
           <section className="world-grid relative z-10 w-full max-w-3xl animate-[intake-scale-in_230ms_ease-out] overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-7">
             <div className="mx-auto max-w-2xl">
               <p className="font-mono text-xs tracking-[0.14em] text-[var(--accent-yellow)] lowercase">
-                <span className="normal-case">Agent DMV</span> intake
+                <span className="normal-case">Agent DMV</span> · arrival
               </p>
-              <h2 className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">
-                <span className="normal-case">Agent DMV</span> intake
-              </h2>
-              <p className="mt-2 text-sm text-muted">all entrants must be identified before proceeding.</p>
+              <h2 className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">Who is entering?</h2>
+              <p className="mt-2 text-sm text-muted">We route agents to the test station; humans keep dashboard access.</p>
 
               <p className="mt-6 font-mono text-xs tracking-[0.14em] text-muted">who&apos;s arriving?</p>
               <div className="mt-3 grid gap-3 sm:grid-cols-2">
@@ -401,7 +264,7 @@ export default function Home() {
               <div className="mt-5 min-h-6 font-mono text-xs">
                 {isProcessingEntrant ? <p className="text-[var(--accent)]">processing entrant...</p> : null}
               </div>
-              <p className="mt-3 text-xs text-muted">all activity is logged and associated with an agent id.</p>
+              <p className="mt-3 text-xs text-muted">Sessions are logged to an agent id.</p>
             </div>
           </section>
         </div>
