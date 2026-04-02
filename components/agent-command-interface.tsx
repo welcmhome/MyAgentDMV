@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { TerminalTrafficLights } from "@/components/terminal-traffic-lights";
 
 type CommandTab = "api" | "prompt" | "cli";
 
@@ -40,11 +41,32 @@ curl -X POST "https://myagentdmv.com/api/evaluations" \\
   -d '{"agentId":"<id from previous response>","licenseClass":"sales"}'`,
 };
 
+function CopyIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+      <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+    </svg>
+  );
+}
+
+function CheckIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M20 6 9 17l-5-5" />
+    </svg>
+  );
+}
+
 export function AgentCommandInterface() {
   const [tab, setTab] = useState<CommandTab>("api");
   const [copied, setCopied] = useState(false);
 
   const code = useMemo(() => CONTENT[tab], [tab]);
+
+  useEffect(() => {
+    setCopied(false);
+  }, [tab]);
 
   const onCopy = async () => {
     try {
@@ -58,24 +80,11 @@ export function AgentCommandInterface() {
 
   return (
     <div className="overflow-hidden rounded-xl border border-[var(--border)] bg-[#0c0c0c] shadow-[0_0_0_1px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.04)]">
-      <div className="flex flex-col gap-3 border-b border-[var(--border)] bg-black/50 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex flex-wrap items-center gap-3">
-          <div className="flex items-center gap-1.5" aria-hidden>
-            <span className="h-2.5 w-2.5 rounded-full bg-red-500/90 shadow-[0_0_6px_rgba(239,68,68,0.5)]" />
-            <span className="h-2.5 w-2.5 rounded-full bg-amber-400/90 shadow-[0_0_6px_rgba(251,191,36,0.35)]" />
-            <span className="h-2.5 w-2.5 rounded-full bg-emerald-500/90 shadow-[0_0_6px_rgba(52,211,153,0.35)]" />
-          </div>
-          <div>
-            <p className="font-mono text-[10px] font-medium tracking-[0.12em] text-[var(--accent-yellow)]">dispatch terminal</p>
-          </div>
+      <div className="flex flex-wrap items-center gap-3 border-b border-[var(--border)] bg-black/50 px-4 py-3">
+        <TerminalTrafficLights />
+        <div>
+          <p className="font-mono text-[10px] font-medium tracking-[0.12em] text-[var(--accent-yellow)]">dispatch terminal</p>
         </div>
-        <button
-          type="button"
-          onClick={onCopy}
-          className="focus-ring shrink-0 rounded-md border border-[var(--border)] bg-[var(--surface-soft)] px-3 py-1.5 font-mono text-xs text-[var(--text)] transition hover:border-[var(--accent)]/45 hover:text-[var(--accent)]"
-        >
-          {copied ? "copied" : "copy"}
-        </button>
       </div>
 
       <div className="flex flex-wrap gap-1 border-b border-[var(--border)] bg-black/35 px-3 py-2">
@@ -97,9 +106,17 @@ export function AgentCommandInterface() {
 
       <div className="relative min-h-[14rem] bg-[#080808] sm:min-h-[16rem]">
         <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,transparent,rgba(34,211,238,0.02))]" />
-        <pre className="relative max-h-[min(28rem,55vh)] overflow-x-auto overflow-y-auto p-4 pb-5 font-mono text-[12.5px] leading-[1.65] text-slate-200 whitespace-pre-wrap sm:p-5 sm:text-[13px]">
+        <pre className="relative max-h-[min(28rem,55vh)] overflow-x-auto overflow-y-auto p-4 pb-12 pr-14 font-mono text-[12.5px] leading-[1.65] text-slate-200 whitespace-pre-wrap sm:p-5 sm:pb-14 sm:pr-16 sm:text-[13px]">
           {code}
         </pre>
+        <button
+          type="button"
+          onClick={onCopy}
+          className="focus-ring absolute bottom-3 right-3 z-10 flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg border border-[var(--border)] bg-[#121212]/95 text-muted shadow-sm backdrop-blur-sm transition hover:border-[var(--accent)]/45 hover:text-[var(--accent)]"
+          aria-label={copied ? "Copied" : "Copy to clipboard"}
+        >
+          {copied ? <CheckIcon className="text-[var(--accent)]" /> : <CopyIcon />}
+        </button>
       </div>
     </div>
   );

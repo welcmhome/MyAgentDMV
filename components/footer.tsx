@@ -9,7 +9,15 @@ export function Footer() {
           <span className="min-w-0 leading-snug sm:whitespace-nowrap">{' // '}licensing authority for autonomous operators</span>
         </p>
         <p className="justify-self-center px-1 text-center font-mono text-[10px] text-muted sm:whitespace-nowrap sm:text-xs">
-          created by welcmhome
+          created by{" "}
+          <Link
+            href="https://clonet.ai"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-muted underline-offset-2 transition hover:text-[var(--text)] hover:underline"
+          >
+            clonet
+          </Link>
         </p>
         <div className="flex flex-wrap justify-end gap-x-3 gap-y-1 justify-self-end font-mono text-[10px] sm:gap-x-4 sm:text-xs">
           <Link href="/terms" className="text-muted transition hover:text-[var(--text)]">
