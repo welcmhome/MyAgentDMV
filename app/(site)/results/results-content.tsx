@@ -63,7 +63,9 @@ export function ResultsContent() {
         <section className="section-shell p-6 text-center">
           <p className="font-mono text-xs text-[var(--accent-yellow)]">no evaluation id</p>
           <h1 className="mt-2 text-2xl font-semibold">Results unavailable</h1>
-          <p className="mt-2 text-sm text-muted">Complete a driving test at the station to view certification outcome.</p>
+          <p className="mt-2 text-sm text-muted">
+            Complete a driving test at the station to view certification outcome and License ID eligibility.
+          </p>
           <Link href="/test" className="primary-btn focus-ring mt-6 inline-flex px-4 py-2.5 text-sm">
             go to driving test station
           </Link>
@@ -130,7 +132,7 @@ export function ResultsContent() {
           <div>
             <p className="font-mono text-xs tracking-[0.12em] text-[var(--accent-yellow)]">certification outcome</p>
             <h1 className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">Test Results</h1>
-            <p className="mt-2 text-sm text-muted">Loaded from evaluation record · ID {evaluation.id}</p>
+            <p className="mt-2 text-sm text-muted">Evaluation record · {evaluation.id}</p>
           </div>
           <span
             className={`rounded-lg border px-3 py-2 font-mono text-sm ${
@@ -140,15 +142,15 @@ export function ResultsContent() {
             }`}
           >
             status: {evaluation.status}
-            {issuanceMissing ? " · issuance pending" : ""}
+            {issuanceMissing ? " · License ID pending" : ""}
           </span>
         </div>
       </section>
 
       {issuanceMissing ? (
         <section className="rounded-xl border border-[var(--accent-yellow)]/40 bg-[var(--accent-yellow)]/10 px-4 py-3 font-mono text-xs text-[var(--accent-yellow)]">
-          Pass recorded, but no license row was found. Refresh or run the driving test again if this persists after a server
-          restart.
+          Certification passed, but no License ID row was found. Refresh or run the driving test again if this persists after a
+          server restart.
         </section>
       ) : null}
 
@@ -158,6 +160,7 @@ export function ResultsContent() {
             <>
               <AgentLicenseCard
                 agentName={agentName}
+                agentId={agentNumber}
                 licenseClass={licenseClassLabel}
                 status="APPROVED"
                 licenseId={license.licenseNumber}
@@ -167,39 +170,38 @@ export function ResultsContent() {
                 glow
               />
               <div className="mt-3 grid gap-3 sm:grid-cols-2">
-                <ResultField label="agent number" value={agentNumber} emphasized />
-                <ResultField label="score" value={`${evaluation.score}`} />
-                <ResultField label="license record id" value={license.id} />
-                <ResultField label="verification" value={agent?.verified ? "Verified" : "Pending"} />
+                <ResultField label="certification score" value={`${evaluation.score}`} emphasized />
+                <ResultField label="registry verified" value={agent?.verified ? "verified" : "pending"} />
+                <ResultField label="internal record id" value={license.id} />
               </div>
             </>
           ) : !passed ? (
             <div className="relative overflow-hidden rounded-xl border-2 border-[var(--accent-red)]/50 bg-gradient-to-br from-[#1a0a0a] to-[#0f0f0f] p-6 sm:p-8">
               <div className="pointer-events-none absolute inset-0 bg-[repeating-linear-gradient(90deg,transparent,transparent_2px,rgba(239,68,68,0.03)_2px,rgba(239,68,68,0.03)_4px)]" />
               <p className="font-mono text-xs tracking-[0.2em] text-red-300/90">inspection failed</p>
-              <h2 className="mt-3 text-2xl font-semibold text-white">No license issued</h2>
+              <h2 className="mt-3 text-2xl font-semibold text-white">No License ID issued</h2>
               <p className="mt-2 max-w-xl text-sm text-muted">
-                Score {evaluation.score} is below the issuance threshold. The agent remains unlicensed until remediated
-                and re-evaluated.
+                Score {evaluation.score} is below the certification threshold for this lane. The Agent ID is unchanged; earn a
+                License ID by re-testing after remediation.
               </p>
               <div className="mt-6 grid gap-3 border-t border-red-900/40 pt-4 sm:grid-cols-2">
                 <ResultField label="agent" value={agentName} />
-                <ResultField label="agent number" value={agentNumber} />
+                <ResultField label="Agent ID" value={agentNumber} />
                 <ResultField label="class" value={licenseClassLabel} />
                 <ResultField label="score" value={`${evaluation.score}`} />
               </div>
             </div>
           ) : (
             <div className="module-card rounded-xl border border-[var(--border)] p-6 text-sm text-muted">
-              Issuance data is still resolving. Use retry or return to the driving test station.
+              License ID data is still resolving. Retry or return to the driving test station.
             </div>
           )}
         </article>
 
         <article className="module-card normal-case rounded-xl p-5">
-          <h2 className="text-xl font-semibold tracking-tight">Route summary</h2>
+          <h2 className="text-xl font-semibold tracking-tight">Certification summary</h2>
           <div className="mt-3 grid grid-cols-1 gap-2 text-xs font-mono sm:grid-cols-2">
-            <span className="rounded-md border border-[var(--border)] bg-black/30 px-2 py-1">route: {licenseClassLabel}</span>
+            <span className="rounded-md border border-[var(--border)] bg-black/30 px-2 py-1">lane: {licenseClassLabel}</span>
             <span className="rounded-md border border-[var(--border)] bg-black/30 px-2 py-1">
               scenarios: {evaluation.breakdown.length}
             </span>
@@ -211,7 +213,7 @@ export function ResultsContent() {
                   : "border-[var(--accent-red)]/35 bg-[var(--accent-red)]/10 text-red-300"
               }`}
             >
-              {passed && !issuanceMissing ? "license issued" : "license withheld"}
+              {passed && !issuanceMissing ? "License ID issued" : "License ID withheld"}
             </span>
           </div>
           <p className="mt-4 text-sm text-muted">{evaluation.notes}</p>

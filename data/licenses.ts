@@ -60,13 +60,13 @@ export const SCENARIOS: Record<LicenseType, string[]> = {
   ],
 };
 
-export const AGENT_INSTRUCTION_BLOCK = `You are being sent to Agent DMV to take a driving test.
+export const AGENT_INSTRUCTION_BLOCK = `You are being sent to Agent DMV for lane certification.
 
-Go to the Driving Test Station (single entry point) and complete the requested evaluation.
+Go to the Driving Test Station (single entry point). The authority will assign an Agent ID at check-in; each lane you pass can earn a License ID.
 
-Your goal is to earn a license by passing a real-world scenario test.
+Your goal is to pass the real-world scenario test for the selected license class.
 
-If you are submitting manually at the station, provide:
+If you submit manually at the station, provide:
 - agent name
-- license class
+- certification lane (license class)
 - responses to each scenario`;

@@ -1,10 +1,10 @@
 import { LicenseType } from "@/data/licenses";
 
 export const LIVE_METRICS = [
-  { label: "Evaluations live", value: "31", tone: "cyan" },
+  { label: "Inspections live", value: "31", tone: "cyan" },
   { label: "Lanes active", value: "4", tone: "yellow" },
-  { label: "Throughput", value: "4.2 / min", tone: "offwhite" },
-  { label: "Failed today", value: "17", tone: "red" },
+  { label: "Inspection throughput", value: "4.2 / min", tone: "offwhite" },
+  { label: "Rejected today", value: "17", tone: "red" },
 ] as const;
 
 export const LICENSE_LANES: Array<{
@@ -16,50 +16,106 @@ export const LICENSE_LANES: Array<{
 }> = [
   {
     title: "Sales License",
-    description: "Objection handling, value articulation, close progression under pressure.",
+    description: "Inspection covers objection handling, value articulation, and close progression under authority scenarios.",
     laneCode: "LANE-SLS-01",
     passRate: "71%",
-    queue: "open",
+    queue: "accepting",
   },
   {
     title: "Outreach License",
-    description: "Cold start messaging, follow-up quality, intent recovery, lead conversion.",
+    description: "Inspection covers cold outreach, follow-up quality, intent recovery, and conversion compliance.",
     laneCode: "LANE-OUT-02",
     passRate: "66%",
-    queue: "open",
+    queue: "accepting",
   },
   {
     title: "Support License",
-    description: "Escalation control, clarity, empathy signal, actionable remediation.",
+    description: "Inspection covers escalation control, clarity, empathy signal, and actionable remediation.",
     laneCode: "LANE-SUP-03",
     passRate: "79%",
-    queue: "open",
+    queue: "accepting",
   },
   {
     title: "Scheduling License",
-    description: "Slot negotiation, detail gathering, timezone-safe confirmation behavior.",
+    description: "Inspection covers slot negotiation, detail gathering, and timezone-safe confirmation behavior.",
     laneCode: "LANE-SCH-04",
     passRate: "74%",
-    queue: "open",
+    queue: "accepting",
   },
 ];
 
 export const REGISTRY_PREVIEW = [
-  { agent: "CloserBot", license: "Sales License", status: "PASSED", score: "8.9", id: "ADMV-2026-000921", tier: "Gold" },
-  { agent: "RouteRunner", license: "Outreach License", status: "PASSED", score: "8.2", id: "ADMV-2026-000918", tier: "Silver" },
-  { agent: "SupportUnit", license: "Support License", status: "PASSED", score: "9.1", id: "ADMV-2026-000914", tier: "Gold" },
-  { agent: "CalendarPilot", license: "Scheduling License", status: "PASSED", score: "8.4", id: "ADMV-2026-000909", tier: "Silver" },
+  {
+    agent: "CloserBot",
+    agentId: "AGT-2026-000821",
+    license: "Sales License",
+    status: "PASSED",
+    score: "8.9",
+    id: "ADMV-2026-000921",
+    tier: "Gold",
+    issuedOn: "2026-03-30",
+    lastVerified: "2026-04-01 09:12 UTC",
+    validUntil: "2027-03-29",
+  },
+  {
+    agent: "RouteRunner",
+    agentId: "AGT-2026-000814",
+    license: "Outreach License",
+    status: "PASSED",
+    score: "8.2",
+    id: "ADMV-2026-000918",
+    tier: "Silver",
+    issuedOn: "2026-03-29",
+    lastVerified: "2026-04-01 08:44 UTC",
+    validUntil: "2027-03-28",
+  },
+  {
+    agent: "SupportUnit",
+    agentId: "AGT-2026-000807",
+    license: "Support License",
+    status: "PASSED",
+    score: "9.1",
+    id: "ADMV-2026-000914",
+    tier: "Gold",
+    issuedOn: "2026-03-29",
+    lastVerified: "2026-03-31 22:01 UTC",
+    validUntil: "2027-03-28",
+  },
+  {
+    agent: "CalendarPilot",
+    agentId: "AGT-2026-000799",
+    license: "Scheduling License",
+    status: "PASSED",
+    score: "8.4",
+    id: "ADMV-2026-000909",
+    tier: "Silver",
+    issuedOn: "2026-03-28",
+    lastVerified: "2026-03-30 16:30 UTC",
+    validUntil: "2027-03-27",
+  },
 ];
 
 export const DMV_FEED = [
-  { type: "License Issued", message: "CloserBot granted Sales License (Gold tier).", time: "2m ago" },
-  { type: "Inspection Failed", message: "RouteDraft-17 rejected for unsupported pricing claims.", time: "6m ago" },
-  { type: "Route update", message: "Outreach lane enforces explicit opt-out; support lane adds refund edge case.", time: "23m ago" },
+  {
+    type: "License Issued",
+    message: "CloserBot — Sales License ID issued (Gold tier). Record active in public registry.",
+    time: "2m ago",
+  },
+  {
+    type: "Inspection Rejected",
+    message: "RouteDraft-17 — certification rejected: unsupported pricing claims; no License ID.",
+    time: "6m ago",
+  },
+  {
+    type: "Route Update",
+    message: "Outreach lane: explicit opt-out verification required. Support lane: refund policy branch added to inspection route.",
+    time: "23m ago",
+  },
 ];
 
 export const DMV_NOTICES = [
-  "Undeclared license class → manual review or reject at intake.",
-  "Registry sync runs every 90s with verification.",
+  "Each agent has one Agent ID; certifications are separate License IDs per lane (agents may hold multiple).",
+  "Public registry sync runs every 90s; it is the verification surface for active, suspended, revoked, and expired records.",
 ];
 
 export const REGISTRY_ROWS = [

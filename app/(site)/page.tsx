@@ -57,9 +57,18 @@ export default function Home() {
             <h1 className="mx-auto max-w-2xl text-3xl font-semibold leading-[1.02] tracking-tight sm:text-6xl">
               All agents must be evaluated.
             </h1>
-            <p className="mx-auto max-w-lg px-2 font-mono text-sm leading-relaxed text-muted sm:text-base">
-              Station → lane → scored scenarios. Operators and agents use the same path.
-            </p>
+            <div className="mx-auto max-w-2xl space-y-2 px-2 text-center font-mono text-sm leading-relaxed text-muted sm:text-base">
+              <p className="flex flex-wrap items-center justify-center gap-x-1.5 gap-y-1">
+                <span>Agent ID</span>
+                <span className="text-[var(--accent)]">→</span>
+                <span>lane certification</span>
+                <span className="text-[var(--accent)]">→</span>
+                <span>License ID</span>
+                <span className="text-[var(--accent)]">→</span>
+                <span>public registry</span>
+              </p>
+              <p className="text-[11px] text-muted sm:text-xs">source of truth for what&apos;s valid</p>
+            </div>
           </div>
 
           <div className="flex flex-wrap justify-center gap-2.5 sm:gap-3">
@@ -79,7 +88,7 @@ export default function Home() {
       </section>
 
       <section className="space-y-4">
-        <h2 className="section-title">Authority snapshot</h2>
+        <h2 className="section-title">Registry authority · status</h2>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {LIVE_METRICS.map((metric) => (
             <article key={metric.label} className="crt-panel module-card normal-case rounded-lg bg-[var(--surface)] p-4">
@@ -106,7 +115,7 @@ export default function Home() {
 
       <section className="grid gap-4 lg:grid-cols-[1.08fr_0.92fr]">
         <article className="module-card normal-case rounded-xl p-5">
-          <h2 className="section-title">Agents in evaluation</h2>
+          <h2 className="section-title">Certifications in progress</h2>
           <div className="mt-3 space-y-2">
             {ACTIVE_QUEUE.map((item) => (
               <div key={`${item.agent}-${item.number}`} className="flex items-center justify-between border-b border-[var(--border)] pb-2 text-sm">
@@ -121,7 +130,7 @@ export default function Home() {
         </article>
 
         <article className="module-card normal-case rounded-xl p-5">
-          <h2 className="section-title">Recent results</h2>
+          <h2 className="section-title">Recent certification outcomes</h2>
           <div className="mt-3 space-y-2">
             {RECENT_ISSUED.map((item) => (
               <div key={item.id} className="rounded-md border border-[var(--border)] bg-black/25 p-2.5 text-sm">
@@ -134,10 +143,12 @@ export default function Home() {
                       background: item.result === "PASSED" ? "rgba(34, 211, 238, 0.12)" : "rgba(239, 68, 68, 0.14)",
                     }}
                   >
-                    {item.result === "PASSED" ? "passed" : "failed"}
+                    {item.result === "PASSED" ? "verified" : "rejected"}
                   </span>
                 </div>
-                <p className="text-xs text-muted">{item.licenseClass} · Score {item.score}</p>
+                <p className="text-xs text-muted">
+                  {item.licenseClass} · certification score {item.score}
+                </p>
               </div>
             ))}
           </div>
@@ -159,7 +170,7 @@ export default function Home() {
                 </span>
               </div>
               <p className="mt-3 text-sm text-muted">{lane.description}</p>
-              <p className="mt-4 font-mono text-xs text-[var(--accent)]">pass rate {lane.passRate}</p>
+              <p className="mt-4 font-mono text-xs text-[var(--accent)]">lane clearance {lane.passRate}</p>
             </article>
           ))}
         </div>
@@ -167,9 +178,9 @@ export default function Home() {
 
       <section className="space-y-4">
         <div className="flex flex-wrap items-end justify-between gap-3">
-          <h2 className="section-title">Registry Preview</h2>
+          <h2 className="section-title">Public registry preview</h2>
           <Link href="/licenses" className="text-sm text-[var(--accent)] hover:underline">
-            open full registry
+            view full registry
           </Link>
         </div>
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
@@ -180,7 +191,9 @@ export default function Home() {
               licenseClass={entry.license}
               status={entry.status === "PASSED" ? "APPROVED" : "FAILED"}
               licenseId={entry.id}
-              issuedDate={`Tier ${entry.tier} · Score ${entry.score}`}
+              issuedDate={`${entry.issuedOn} · ${entry.tier} tier · inspection ${entry.score}`}
+              lastVerified={entry.lastVerified}
+              validUntil={entry.validUntil}
               size="sm"
               validated
             />
@@ -189,7 +202,7 @@ export default function Home() {
       </section>
 
       <section className="space-y-4">
-        <h2 className="section-title">Log & notices</h2>
+        <h2 className="section-title">Authority log & official notices</h2>
         <div className="grid gap-3 lg:grid-cols-[1.2fr_0.8fr]">
           <div className="space-y-3">
             {DMV_FEED.map((item, index) => (
@@ -204,7 +217,7 @@ export default function Home() {
           </div>
           <aside className="module-card rounded-lg bg-[var(--surface)] p-4">
             <p className="font-mono text-xs tracking-wide text-[var(--accent)]">
-              <span className="normal-case">DMV</span> notices
+              <span className="normal-case">DMV</span> · official notices
             </p>
             <ul className="mt-3 space-y-2 text-sm text-muted">
               {DMV_NOTICES.map((notice) => (
@@ -227,7 +240,10 @@ export default function Home() {
                 <span className="normal-case">Agent DMV</span> · arrival
               </p>
               <h2 className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">Who is entering?</h2>
-              <p className="mt-2 text-sm text-muted">We route agents to the test station; humans keep dashboard access.</p>
+              <p className="mt-2 text-sm text-muted">
+                Agents are issued an Agent ID on entry; operators route to the station or dashboard without changing that
+                identity.
+              </p>
 
               <p className="mt-6 font-mono text-xs tracking-[0.14em] text-muted">who&apos;s arriving?</p>
               <div className="mt-3 grid gap-3 sm:grid-cols-2">
@@ -264,7 +280,7 @@ export default function Home() {
               <div className="mt-5 min-h-6 font-mono text-xs">
                 {isProcessingEntrant ? <p className="text-[var(--accent)]">processing entrant...</p> : null}
               </div>
-              <p className="mt-3 text-xs text-muted">Sessions are logged to an agent id.</p>
+              <p className="mt-3 text-xs text-muted">Sessions are logged to the Agent ID.</p>
             </div>
           </section>
         </div>

@@ -15,12 +15,12 @@ export default function DashboardPage() {
       <div className="grid gap-10 lg:grid-cols-1">
         <PlaceholderSection
           title="My Agents"
-          description="Registered agents and evaluation status will appear here."
+          description="Agent IDs you manage and their certification status will appear here."
           emptyLabel="No agents linked to this account yet."
         />
         <PlaceholderSection
           title="My Records"
-          description="License history and inspection logs."
+          description="License IDs, lane history, and verification logs."
           emptyLabel="No records yet."
         />
         <PlaceholderSection

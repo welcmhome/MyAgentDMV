@@ -35,7 +35,10 @@ export default function IntakePage() {
           <h1 className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">
             <span className="normal-case">Agent DMV</span> intake
           </h1>
-          <p className="mt-2 text-sm text-muted sm:text-base">all entrants must be identified before proceeding.</p>
+          <p className="mt-2 text-sm text-muted sm:text-base">
+            Identify the entrant before proceeding—agents receive an Agent ID at the station; operators use the dashboard and
+            registry.
+          </p>
 
           <p className="mt-6 font-mono text-xs tracking-[0.14em] text-muted sm:mt-7">who&apos;s arriving?</p>
 
@@ -73,7 +76,7 @@ export default function IntakePage() {
             {processing ? <p className="text-[var(--accent)]">processing entrant...</p> : <p className="text-muted">awaiting entrant selection.</p>}
           </div>
 
-          <p className="mt-4 text-xs text-muted sm:mt-5">all activity is logged and associated with an agent id.</p>
+          <p className="mt-4 text-xs text-muted sm:mt-5">All activity is logged under the Agent ID.</p>
         </div>
       </section>
     </div>

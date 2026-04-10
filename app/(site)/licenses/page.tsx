@@ -32,22 +32,58 @@ function formatIssued(iso: string) {
   }
 }
 
+/** License / certification status (not Agent ID). Registry verified column = record authenticity. */
 function statusLabel(raw: string): string {
-  if (raw === "passed" || raw === "active") return "Issued";
-  if (raw === "failed") return "Failed";
-  if (raw === "revoked") return "Revoked";
-  if (raw === "pending" || raw === "under_review") return "Pending";
+  const r = raw.toLowerCase();
+  if (r === "passed" || r === "active") return "Active";
+  if (r === "failed") return "Rejected";
+  if (r === "revoked") return "Revoked";
+  if (r === "suspended") return "Suspended";
+  if (r === "expired") return "Expired";
+  if (r === "pending" || r === "under_review") return "Pending";
   return raw;
 }
 
 function statusFilterMatch(rowStatus: string, filter: string): boolean {
   if (filter === "All") return true;
   const label = statusLabel(rowStatus);
-  if (filter === "Issued") return label === "Issued";
-  if (filter === "Failed") return label === "Failed";
+  if (filter === "Active") return label === "Active";
+  if (filter === "Rejected") return label === "Rejected";
   if (filter === "Pending") return label === "Pending";
   if (filter === "Revoked") return label === "Revoked";
   return true;
+}
+
+/** Placeholder trust fields (display-only; not from API). */
+function placeholderLastVerified(issuedAt: string, agentId: string): string {
+  if (issuedAt === "—") return "—";
+  try {
+    const base = new Date(issuedAt);
+    if (Number.isNaN(base.getTime())) return "—";
+    const salt = agentId.split("").reduce((acc, c) => acc + c.charCodeAt(0), 0);
+    const d = new Date(base.getTime() + (salt % 72) * 60 * 60 * 1000);
+    const y = d.getUTCFullYear();
+    const mo = String(d.getUTCMonth() + 1).padStart(2, "0");
+    const day = String(d.getUTCDate()).padStart(2, "0");
+    const h = String(d.getUTCHours()).padStart(2, "0");
+    const m = String(d.getUTCMinutes()).padStart(2, "0");
+    return `${y}-${mo}-${day} ${h}:${m} UTC`;
+  } catch {
+    return "—";
+  }
+}
+
+function placeholderValidUntil(issuedAt: string): string {
+  if (issuedAt === "—") return "—";
+  try {
+    const d = new Date(issuedAt);
+    if (Number.isNaN(d.getTime())) return "—";
+    d.setUTCFullYear(d.getUTCFullYear() + 1);
+    d.setUTCDate(d.getUTCDate() - 1);
+    return d.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+  } catch {
+    return "—";
+  }
 }
 
 export default function LicensesPage() {
@@ -119,7 +155,8 @@ export default function LicensesPage() {
             <p className="font-mono text-xs tracking-[0.12em] text-[var(--accent-yellow)]">public registry</p>
             <h1 className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">License Registry</h1>
             <p className="mt-2 text-sm text-muted">
-              Search licensed agents, inspection outcomes, scores, and issuance records. Public-safe fields only.
+              Verify License IDs and Agent IDs. One agent may hold multiple certifications; the registry is the public source of
+              truth for validity, last verified, and valid-until. Public-safe fields only.
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-2 text-xs font-mono">
@@ -142,11 +179,12 @@ export default function LicensesPage() {
       </section>
 
       <section className="section-shell p-4 sm:p-5">
-        <div className="grid gap-3 md:grid-cols-[1fr_minmax(180px,auto)_minmax(180px,auto)]">
+        <div className="grid gap-3 md:grid-cols-[1fr_minmax(160px,auto)_minmax(160px,auto)_auto]">
           <input
+            id="registry-license-search"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Search by agent, number, class, or license…"
+            placeholder="Search by name, Agent ID, class, or License ID…"
             className="focus-ring w-full rounded-lg border border-[var(--border)] bg-[var(--surface-soft)] px-3 py-2.5 text-sm outline-none"
           />
           <select
@@ -155,8 +193,8 @@ export default function LicensesPage() {
             className="focus-ring w-full rounded-lg border border-[var(--border)] bg-[var(--surface-soft)] px-3 py-2.5 text-sm outline-none md:w-auto"
           >
             <option>All</option>
-            <option>Issued</option>
-            <option>Failed</option>
+            <option>Active</option>
+            <option>Rejected</option>
             <option>Pending</option>
             <option>Revoked</option>
           </select>
@@ -166,9 +204,16 @@ export default function LicensesPage() {
             className="focus-ring w-full rounded-lg border border-[var(--border)] bg-[var(--surface-soft)] px-3 py-2.5 text-sm outline-none md:w-auto"
           >
             <option value="score">Sort: Score</option>
-            <option value="issued">Sort: Issued Date</option>
-            <option value="agent">Sort: Agent Name</option>
+            <option value="issued">Sort: Issue date</option>
+            <option value="agent">Sort: Agent name</option>
           </select>
+          <button
+            type="button"
+            onClick={() => document.getElementById("registry-license-search")?.focus()}
+            className="focus-ring whitespace-nowrap rounded-lg border border-[var(--border)] bg-black/25 px-3 py-2.5 font-mono text-xs text-muted transition hover:border-[var(--accent)]/35 hover:text-[var(--accent)] md:self-stretch"
+          >
+            Verify License
+          </button>
         </div>
         {fetchError ? (
           <p className="mt-3 font-mono text-xs text-[var(--accent-red)]">{fetchError}</p>
@@ -188,10 +233,13 @@ export default function LicensesPage() {
                   <AgentLicenseCard
                     key={`preview-${row.agentId}-${row.licenseNumber}`}
                     agentName={row.name}
+                    agentId={row.agentNumber}
                     licenseClass={LICENSE_CLASS_LABEL[row.licenseClass]}
                     status={row.status === "passed" || row.status === "active" ? "APPROVED" : row.status === "failed" ? "FAILED" : "PENDING"}
                     licenseId={row.licenseNumber}
                     issuedDate={formatIssued(row.issuedAt)}
+                    lastVerified={placeholderLastVerified(row.issuedAt, row.agentId)}
+                    validUntil={placeholderValidUntil(row.issuedAt)}
                     size="sm"
                     validated={row.verified}
                   />
@@ -238,10 +286,10 @@ export default function LicensesPage() {
                         Score: <span className="font-mono text-[var(--text)]">{formatScore(row.score)}</span>
                       </p>
                       <p className="text-muted">
-                        Verified: <span className="text-[var(--text)]">{row.verified ? "yes" : "no"}</span>
+                        Registry verified: <span className="text-[var(--text)]">{row.verified ? "yes" : "no"}</span>
                       </p>
                       <p className="font-mono text-muted">
-                        License: <span className="text-[var(--text)]">{row.licenseNumber}</span>
+                        License ID: <span className="text-[var(--text)]">{row.licenseNumber}</span>
                       </p>
                       <p className="font-mono text-muted">
                         Issued: <span className="text-[var(--text)]">{formatIssued(row.issuedAt)}</span>
@@ -256,12 +304,12 @@ export default function LicensesPage() {
                   <thead>
                     <tr className="text-left font-mono text-xs text-muted">
                       <th className="px-3 py-3">Agent</th>
-                      <th className="px-3 py-3">Agent #</th>
+                      <th className="px-3 py-3">Agent ID</th>
                       <th className="px-3 py-3">License Class</th>
                       <th className="px-3 py-3">Status</th>
-                      <th className="px-3 py-3">Verified</th>
+                      <th className="px-3 py-3">Registry verified</th>
                       <th className="px-3 py-3">Score</th>
-                      <th className="px-3 py-3">License #</th>
+                      <th className="px-3 py-3">License ID</th>
                       <th className="px-3 py-3">Issued</th>
                     </tr>
                   </thead>
@@ -317,8 +365,8 @@ export default function LicensesPage() {
           <article className="module-card rounded-xl bg-[var(--surface)] p-4">
             <p className="font-mono text-xs text-[var(--accent-yellow)]">registry notice</p>
             <p className="mt-2 text-sm text-muted">
-              New agents appear in queue (pending / under review) before evaluation completes. Failed inspections
-              show without a license number until re-evaluation.
+              Agents appear as pending until evaluation completes. Rejected certifications do not receive a License ID. One Agent ID
+              may map to multiple License IDs across lanes.
             </p>
           </article>
           <article className="module-card rounded-xl p-4">

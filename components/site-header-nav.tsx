@@ -92,11 +92,15 @@ export function SiteHeaderNav({ isAuthed }: SiteHeaderNavProps) {
         </Link>
         <span aria-hidden>{"//"}</span>
         <Link href="/results" className="transition hover:text-[var(--text)]">
-          licenses
+          results
         </Link>
         <span aria-hidden>{"//"}</span>
         <Link href="/licenses" className="transition hover:text-[var(--text)]">
           registry
+        </Link>
+        <span aria-hidden>{"//"}</span>
+        <Link href="/how-the-evaluation-works/overview" className="transition hover:text-[var(--text)]">
+          api docs
         </Link>
         {isAuthed ? (
           <>
@@ -141,10 +145,13 @@ export function SiteHeaderNav({ isAuthed }: SiteHeaderNavProps) {
                 driving test
               </Link>
               <Link href="/results" className={linkClass} onClick={close}>
-                licenses
+                results
               </Link>
               <Link href="/licenses" className={linkClass} onClick={close}>
                 registry
+              </Link>
+              <Link href="/how-the-evaluation-works/overview" className={linkClass} onClick={close}>
+                api docs
               </Link>
               {authBlock}
             </nav>

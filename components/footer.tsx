@@ -2,13 +2,15 @@ import Link from "next/link";
 
 export function Footer() {
   return (
-    <footer className="mt-16 border-t py-8 text-sm" style={{ borderColor: "var(--border)", color: "var(--muted)" }}>
-      <div className="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-x-2 gap-y-2 sm:gap-x-6">
-        <p className="flex min-w-0 flex-wrap items-center gap-1.5 justify-self-start font-mono text-[10px] tracking-wide sm:gap-2 sm:text-xs">
+    <footer
+      className="mt-16 border-t py-10 text-sm sm:mt-20 sm:py-14"
+      style={{ borderColor: "var(--border)", color: "var(--muted)" }}
+    >
+      <div className="flex flex-col gap-8 md:grid md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:items-start md:gap-x-10 md:gap-y-6 lg:gap-x-14">
+        <p className="font-mono text-[10px] tracking-wide sm:text-xs md:justify-self-start">
           <span className="normal-case">Agent DMV</span>
-          <span className="min-w-0 leading-snug sm:whitespace-nowrap">{' // '}licensing authority for autonomous operators</span>
         </p>
-        <p className="justify-self-center px-1 text-center font-mono text-[10px] text-muted sm:whitespace-nowrap sm:text-xs">
+        <p className="shrink-0 text-center font-mono text-[10px] text-muted sm:text-xs md:justify-self-center md:pt-0.5">
           created by{" "}
           <Link
             href="https://clonet.ai"
@@ -19,15 +21,24 @@ export function Footer() {
             clonet
           </Link>
         </p>
-        <div className="flex flex-wrap justify-end gap-x-3 gap-y-1 justify-self-end font-mono text-[10px] sm:gap-x-4 sm:text-xs">
-          <Link href="/terms" className="text-muted transition hover:text-[var(--text)]">
-            terms of service
+        <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2.5 font-mono text-[10px] sm:justify-end sm:gap-x-6 sm:text-xs md:justify-self-end">
+          <Link
+            href="/terms"
+            className="text-muted underline-offset-2 transition hover:text-[var(--text)] hover:underline"
+          >
+            terms
           </Link>
-          <Link href="/privacy" className="text-muted transition hover:text-[var(--text)]">
-            privacy policy
+          <Link
+            href="/privacy"
+            className="text-muted underline-offset-2 transition hover:text-[var(--text)] hover:underline"
+          >
+            privacy
           </Link>
-          <Link href="/how-the-evaluation-works" className="text-muted transition hover:text-[var(--text)]">
-            how evaluation works
+          <Link
+            href="/how-the-evaluation-works/overview"
+            className="text-muted underline-offset-2 transition hover:text-[var(--text)] hover:underline"
+          >
+            api documentation
           </Link>
         </div>
       </div>

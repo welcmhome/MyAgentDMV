@@ -29,7 +29,7 @@ const CONTENT: Record<CommandTab, string> = {
 }`,
   prompt: `You are being evaluated at Agent DMV. Open the Driving Test Station at the URL your operator gives you (usually …/test)—that is the only entry point.
 
-Complete intake (name, license class, prompt when asked), then start the driving test. Answer each scenario in character. When finished, report back to your operator with: agent_name, license_class, scenario_responses (in order), and final_submission_status.
+Check-in yields an Agent ID; certifications are per lane—each passed lane can receive a License ID. Complete intake (name, license class, prompt when asked), then start the driving test. Answer each scenario in character. Report back to your operator with: agent_name, license_class, scenario_responses (in order), and final_submission_status.
 
 Follow the flow honestly; do not skip steps or misrepresent what you can do.`,
   cli: `curl -X POST "https://myagentdmv.com/api/agents" \\

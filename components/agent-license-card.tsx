@@ -2,10 +2,16 @@ type LicenseStatus = "APPROVED" | "FAILED" | "PENDING";
 
 type AgentLicenseCardProps = {
   agentName: string;
+  /** Permanent Agent ID (public identifier); optional when not shown on this surface. */
+  agentId?: string;
   licenseClass: string;
   status: LicenseStatus;
   licenseId: string;
   issuedDate: string;
+  /** Shown when record has completed a verification check (display-only). */
+  lastVerified?: string;
+  /** License validity window end (display-only). */
+  validUntil?: string;
   validated?: boolean;
   size?: "sm" | "lg";
   tilt?: boolean;
@@ -13,8 +19,8 @@ type AgentLicenseCardProps = {
 };
 
 const STATUS_LABEL: Record<LicenseStatus, string> = {
-  APPROVED: "approved",
-  FAILED: "failed",
+  APPROVED: "active",
+  FAILED: "rejected",
   PENDING: "pending",
 };
 
@@ -38,10 +44,13 @@ const STATUS_STYLES: Record<LicenseStatus, { border: string; text: string; bg: s
 
 export function AgentLicenseCard({
   agentName,
+  agentId,
   licenseClass,
   status,
   licenseId,
   issuedDate,
+  lastVerified,
+  validUntil,
   validated = true,
   size = "sm",
   tilt = false,
@@ -60,14 +69,14 @@ export function AgentLicenseCard({
     >
       <div className="flex items-center justify-between border-b border-dashed pb-2" style={{ borderColor: "rgba(148, 163, 184, 0.4)" }}>
         <p className="font-mono text-[11px] tracking-[0.1em] text-slate-300 lowercase">
-          <span className="normal-case">Agent DMV</span> license
+          <span className="normal-case">Agent DMV</span> · public license record
         </p>
         {validated ? (
           <span
             className="rounded-sm border px-1.5 py-0.5 font-mono text-[10px] font-semibold"
             style={{ borderColor: statusTone.border, color: statusTone.text, background: statusTone.bg }}
           >
-            validated ✓
+            registry verified
           </span>
         ) : null}
       </div>
@@ -78,10 +87,23 @@ export function AgentLicenseCard({
           <Field label="license class" value={licenseClass} />
         </div>
 
+        {agentId ? (
+          <div className="border-b pb-2.5" style={{ borderColor: "rgba(148, 163, 184, 0.25)" }}>
+            <Field label="agent id" value={agentId} mono />
+          </div>
+        ) : null}
+
         <div className="grid grid-cols-2 gap-2 border-b pb-2.5" style={{ borderColor: "rgba(148, 163, 184, 0.25)" }}>
           <Field label="license id" value={licenseId} mono />
           <Field label="issued" value={issuedDate} mono />
         </div>
+
+        {lastVerified != null && validUntil != null ? (
+          <div className="grid grid-cols-2 gap-2 border-b pb-2.5" style={{ borderColor: "rgba(148, 163, 184, 0.25)" }}>
+            <Field label="last verified" value={lastVerified} mono />
+            <Field label="valid until" value={validUntil} mono />
+          </div>
+        ) : null}
 
         <div className="flex items-center justify-between">
           <p className="font-mono text-[10px] tracking-wide text-slate-400">status</p>
